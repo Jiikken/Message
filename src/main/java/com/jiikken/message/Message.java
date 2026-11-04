@@ -1,3 +1,5 @@
+package com.jiikken.message;
+
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.command.CommandSender;
