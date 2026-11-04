@@ -1,17 +1,15 @@
-package Jiken.privateTerritory;
-
-import com.google.common.collect.Lists;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.Collections;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
-public final class Messages {
+public final class Message {
     private final Map<String, List<String>> messages = new HashMap<>();
     private final Map<String, Consumer<CommandSender>> senders = new HashMap<>();
 
@@ -20,7 +18,9 @@ public final class Messages {
         for (String key : keys) {
             Object obj = c.get("messages." + key);
             if (obj == null) messages.put(key, List.of());
-            else if (obj instanceof List<?> l) messages.put(key, List.copyOf((List<String>) l));
+            else if (obj instanceof List<?> l) {
+                messages.put(key, l.stream().map(String::valueOf).toList());
+            }
             else messages.put(key, List.of((String) obj));
         }
     }
