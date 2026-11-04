@@ -18,28 +18,28 @@ public final class Message {
 
     public void load(FileConfiguration c, Collection<String> keys) {
         messages.clear();
-        logger.info("[Message] Загрузка сообщений...");
+        logger.info("Загрузка сообщений...");
         for (String key : keys) {
             Object obj = c.get("messages." + key);
             if (obj == null) {
                 messages.put(key, List.of());
-                logger.warning("[Message] Ключ отсутствует в конфиге: messages." + key);
+                logger.warning("Ключ отсутствует в конфиге: messages." + key);
             } else if (obj instanceof List<?> l) {
                 List<String> list = l.stream().map(String::valueOf).toList();
                 messages.put(key, list);
-                logger.info("[Message] Загружено '" + key + "': " + list);
+                logger.info("Загружено '" + key + "': " + list);
             } else {
                 List<String> list = List.of(String.valueOf(obj));
                 messages.put(key, list);
-                logger.info("[Message] Загружено '" + key + "': " + list);
+                logger.info("Загружено '" + key + "': " + list);
             }
         }
-        logger.info("[Message] Загрузка завершена. Всего ключей: " + messages.size());
+        logger.info("Загрузка завершена. Всего ключей: " + messages.size());
     }
 
     public Sender of(String key) {
         if (!messages.containsKey(key)) {
-            logger.warning("[Message] Вызван несуществующий ключ: '" + key + "'. Проверьте config.yml (messages." + key + ")");
+            logger.warning("Вызван несуществующий ключ: '" + key + "'. Проверьте config.yml (messages." + key + ")");
         }
         return new Sender(key);
     }
@@ -54,7 +54,7 @@ public final class Message {
         public void send(CommandSender sender) {
             List<String> list = messages.getOrDefault(key, List.of());
             if (list.isEmpty()) {
-                logger.warning("[Message] Попытка отправить пустое/несуществующее сообщение: '" + key + "'");
+                logger.warning("Попытка отправить пустое/несуществующее сообщение: '" + key + "'");
                 return;
             }
             for (String raw : list) {
