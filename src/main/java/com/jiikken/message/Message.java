@@ -14,11 +14,7 @@ import java.util.logging.Logger;
 
 public final class Message {
     private final Map<String, List<String>> messages = new HashMap<>();
-    private final Logger logger;
-
-    public Message(Logger logger) {
-        this.logger = logger;
-    }
+    private final Logger logger = Logger.getLogger("Message");
 
     public void load(FileConfiguration c, Collection<String> keys) {
         messages.clear();
