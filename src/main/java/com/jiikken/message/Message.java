@@ -2,14 +2,10 @@ package com.jiikken.message;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 public final class Message {
@@ -18,23 +14,26 @@ public final class Message {
 
     public void load(FileConfiguration c, Collection<String> keys) {
         messages.clear();
-        logger.info("Загрузка сообщений...");
+        List<String> logs = new ArrayList<>();
+        logs.add("Загрузка сообщений:");
+
         for (String key : keys) {
             Object obj = c.get("messages." + key);
             if (obj == null) {
                 messages.put(key, List.of());
-                logger.warning("Ключ отсутствует в конфиге: messages." + key);
+                logs.add("  ⚠ Отсутствует: messages." + key);
             } else if (obj instanceof List<?> l) {
                 List<String> list = l.stream().map(String::valueOf).toList();
                 messages.put(key, list);
-                logger.info("Загружено '" + key + "': " + list);
+                logs.add("  ✔ " + key + ": " + list);
             } else {
                 List<String> list = List.of(String.valueOf(obj));
                 messages.put(key, list);
-                logger.info("Загружено '" + key + "': " + list);
+                logs.add("  ✔ " + key + ": " + list);
             }
         }
-        logger.info("Загрузка завершена. Всего ключей: " + messages.size());
+        logs.add("Всего ключей: " + messages.size());
+        logger.info(String.join("\n", logs));
     }
 
     public Sender of(String key) {
