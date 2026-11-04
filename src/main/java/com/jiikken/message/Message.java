@@ -21,15 +21,15 @@ public final class Message {
             Object obj = c.get("messages." + key);
             if (obj == null) {
                 messages.put(key, List.of());
-                logs.add("  ⚠ Отсутствует: messages." + key);
+                logs.add("  ⚠  Отсутствует: messages." + key);
             } else if (obj instanceof List<?> l) {
                 List<String> list = l.stream().map(String::valueOf).toList();
                 messages.put(key, list);
-                logs.add("  ✔ " + key + ": " + list);
+                logs.add("  ✔  " + key + ": " + list);
             } else {
                 List<String> list = List.of(String.valueOf(obj));
                 messages.put(key, list);
-                logs.add("  ✔ " + key + ": " + list);
+                logs.add("  ✔  " + key + ": " + list);
             }
         }
         logs.add("Всего ключей: " + messages.size());
